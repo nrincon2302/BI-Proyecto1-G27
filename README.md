@@ -3,7 +3,7 @@
 Repositorio con el código fuente del proyecto 1 para la clase **Inteligencia de Negocios**. A continuación se encuentran enlaces de interés:
 
 - [Wiki del proyecto](https://github.com/nrincon2302/BI-Proyecto1-G27/wiki)
-- [Modelo de la solución](https://github.com/nrincon2302/BI-Proyecto1-G27/blob/main/source/BI_Proy1_Etapa1_G27.ipynb)
+- [Notebook de Desarrollo](https://github.com/nrincon2302/BI-Proyecto1-G27/blob/main/source/BI_Proy1_Etapa1_G27.ipynb)
 - [Documentos](https://github.com/nrincon2302/BI-Proyecto1-G27/tree/main/docs)
 - [Conjuntos de datos](https://github.com/nrincon2302/BI-Proyecto1-G27/tree/main/data)
 
