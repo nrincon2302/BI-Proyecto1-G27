@@ -1,4 +1,4 @@
-# Proyecto 1 BI - Grupo 28
+# Proyecto 1 BI - Grupo 27
 
 Repositorio con el código fuente del proyecto 1 para la clase **Inteligencia de Negocios**. A continuación se encuentran enlaces de interés:
 
