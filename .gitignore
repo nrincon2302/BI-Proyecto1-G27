@@ -1,0 +1,26 @@
+# Node.js (Frontend)
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Python (Backend)
+__pycache__/
+*.py[cod]
+venv/
+*.egg-info/
+dist/
+build/
+*.whl
+*.egg
+
+# Archivos de configuración de IDEs y editores
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Archivos temporales y de sistema
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
