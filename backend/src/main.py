@@ -1,7 +1,9 @@
 from typing import Optional
 from fastapi import FastAPI
-import DataModel
-import PredictionModel
+from src.DataModel import DataModel
+from src.PredictionModel import Model
+import pandas as pd
+from joblib import load
 
 app = FastAPI()
 
@@ -17,6 +19,6 @@ def read_item(item_id: int, q: Optional[str] = None):
 def make_predictions(dataModel: DataModel):
     df = pd.DataFrame(dataModel.dict(), columns=dataModel.dict().keys(), index=[0])
     df.columns = dataModel.columns()
-    model = load("assets/modelo.joblib")
+    model = load("assets/pipeline_modelo.joblib")
     result = model.predict(df)
     return result
