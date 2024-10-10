@@ -168,3 +168,24 @@ def pipeline_datos(df: pd.DataFrame):
 
 # Guardar el pipeline entrenado en un archivo
 #joblib.dump(pipeline, 'backend/src/assets/pipeline_funcional.joblib')
+
+
+
+def pipeline_datos_reentrenamiento(df):
+    # Verificar si 'df' es una Serie y convertirla en DataFrame
+    if isinstance(df, pd.Series):
+        df_pipeline = df.to_frame(name='Textos_espanol')
+    elif isinstance(df, pd.DataFrame):
+        df_pipeline = df.copy()
+    else:
+        raise ValueError("El input debe ser un DataFrame o Series.")
+    
+    # Renombrar las columnas para que sean más descriptivas
+    df_pipeline.rename(columns={'Textos_espanol': 'Textos'}, inplace=True)
+    
+    # Aplicar el preprocesamiento
+    df_pipeline['words'] = df_pipeline['Textos'].apply(word_tokenize).apply(preprocessing)
+    df_pipeline['words'] = df_pipeline['words'].apply(stem_and_lemmatize)
+    df_pipeline['words'] = df_pipeline['words'].apply(lambda x: ' '.join(map(str, x)))
+
+    return df_pipeline['words']
