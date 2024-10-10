@@ -1,5 +1,23 @@
 import json
 import pandas as pd
+import unicodedata
+from num2words import num2words
+from nltk.corpus import stopwords
+from nltk import word_tokenize
+from nltk.stem import SnowballStemmer, WordNetLemmatizer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+import joblib
+import re  # <- Importar re para expresiones regulares
+
+# Descargar datos necesarios de nltk
+import nltk
+#nltk.download('punkt')
+#nltk.download('stopwords')
+
+stopwords_es = stopwords.words('spanish')
 
 # Mapeo de caracteres mal representados a sus correspondientes en español
 replacement_map = {
@@ -19,6 +37,15 @@ replacement_map = {
     'â€™': '’',
     'â€¢': '•'
 }
+
+# Cargar el archivo de datos
+data = pd.read_excel("data/ODScat_345.xlsx")
+
+# Verificar columnas disponibles en los datos
+print(data.columns)
+
+# Definir X_train con las columnas correctas ('Textos_espanol' y 'sdg')
+X_train = data[['Textos_espanol', 'sdg']]
 
 def correct_encoding_errors(text):
     """Correct common encoding errors in a given text"""
@@ -71,9 +98,6 @@ def replace_numbers(words):
         else:
             new_words.append(word)
     return new_words
-
-with open('./src/assets/stopwords.json', 'r') as file:
-    stopwords_es = json.load(file)
 
 def remove_stopwords(words, stopwords=stopwords_es):
     """Remove stop words from list of tokenized words"""
@@ -131,3 +155,16 @@ def pipeline_datos(df: pd.DataFrame):
     df_pipeline['words'] = df_pipeline['words'].apply(lambda x: ' '.join(map(str, x)))
 
     return df_pipeline['words']
+
+# Crear el pipeline con preprocesamiento y modelo de clasificación
+#pipeline = Pipeline([
+#    ('preprocesamiento', FunctionTransformer(pipeline_datos)),
+#    ('tfidf', TfidfVectorizer(max_features=10000)),
+#    ('clf', LogisticRegression(C=100, max_iter=100, multi_class='multinomial', solver='newton-cg'))
+#])
+
+# Entrenar el pipeline con los datos (X_train['Textos_espanol']) y las etiquetas (X_train['sdg'])
+#pipeline.fit(X_train.drop(columns=['sdg']), X_train['sdg'])
+
+# Guardar el pipeline entrenado en un archivo
+#joblib.dump(pipeline, 'backend/src/assets/pipeline_funcional.joblib')
