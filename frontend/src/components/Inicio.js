@@ -24,7 +24,7 @@ const Inicio = () => {
         <hr className="custom-hr" />
         
         {/* Imagen de la rueda ODS con el botón superpuesto */}
-        <Col sm="5" className="robot-image" style={{ position: 'relative' }}>
+        <Col sm="5" className="robot-image" style={{ position: 'relative', marginBottom: '50px' }}>
           <Image src={banner} alt="Clasificador" fluid />
           
           {/* Botón superpuesto y redondo en el centro de la imagen */}

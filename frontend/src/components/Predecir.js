@@ -1,216 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { Bar } from 'react-chartjs-2';
+import CSVReader from 'react-csv-reader';
 
 const Predecir = () => {
-    const [inputs, setInputs] = useState([{ text: '', result: null, prob: null }]);
+  const [texts, setTexts] = useState(['']); // Textos ingresados manualmente
+  const [predictions, setPredictions] = useState([]); // Predicciones obtenidas del endpoint
+  const [probabilities, setProbabilities] = useState([]); // Probabilidades obtenidas del endpoint
+  const [loading, setLoading] = useState(false);
 
-    const [tiempoReal, setTiempoReal] = useState(false);
-    const [APIunavailable, setAPIunavailable] = useState(true);
-
-    useEffect(() => {
-        const checkAPI = async () => {
-            try {
-                const response = await fetch('http://127.0.0.1:8000/');
-                if (response.ok) {
-                    setAPIunavailable(false);
-                } else {
-                    setAPIunavailable(true);
-                }
-            } catch (error) {
-                setAPIunavailable(true);
-            }
-        };
-    
-        checkAPI();
-    }, []);
-    
-
-    const handleAddInput = () => {
-        setInputs([...inputs, { text: '', result: null, prob: null }]);
-    };
-
-    const handleRemoveInput = (index) => {
-        if (inputs.length === 1) {
-            return;
-        }
-        setInputs(inputs.filter((_, i) => i !== index));
-    };
-
-    const handleInputChange = (index, event) => {
-        const newInputs = [...inputs];
-        newInputs[index].text = event.target.value;
-        setInputs(newInputs);
-
-        if (event.target.value === '') {
-            clearInput(index);
-            return;
-        }
-
-        if (tiempoReal) {
-            handlePredictRealTime(index);
-        }
-    };
-
-    const handlePredictRealTime = async (index) => {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ review: inputs[index].text })
-            });
-            if (!response.ok) {
-                throw new Error('API no disponible');
-            }
-            const data = await response.json();
-            const newInputs = [...inputs];
-            newInputs[index].result = data.result;
-            newInputs[index].prob = data.prob;
-            setInputs(newInputs);
-        } catch (error) {
-            alert("API no disponible");
-        }
-    };
-    
-    const handlePredict = async () => {
-        try {
-            for (let index = 0; index < inputs.length; index++) {
-                const response = await fetch('http://127.0.0.1:8000/predict', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ review: inputs[index].text })
-                });
-                if (!response.ok) {
-                    throw new Error('API no disponible');
-                }
-                const data = await response.json();
-                const newInputs = [...inputs];
-                newInputs[index].result = data.result;
-                newInputs[index].prob = data.prob;
-                setInputs(newInputs);
-            }
-        } catch (error) {
-            alert("API no disponible");
-        }
-    };
-
-    const handleClear = () => {
-        for (let index = 0; index < inputs.length; index++) {
-            clearInput(index);
-        }
+  // Agregar una nueva caja de texto (máximo 5)
+  const addTextInput = () => {
+    if (texts.length < 5) {
+      setTexts([...texts, '']);
     }
+  };
 
-    const clearInput = (index) => {
-        const newInputs = [...inputs];
-        newInputs[index].result = null;
-        newInputs[index].prob = null;
-        newInputs[index].text = '';
-        setInputs(newInputs);
-    };
+  // Manejar cambios en las cajas de texto
+  const handleTextChange = (index, event) => {
+    const newTexts = [...texts];
+    newTexts[index] = event.target.value;
+    setTexts(newTexts);
+  };
 
-    const generateStars = (result) => {
-        return '★'.repeat(result) + '☆'.repeat(5 - result);
-    };
+  // Manejar carga de archivo CSV
+  const handleCSVUpload = (data) => {
+    const csvTexts = data.map(row => row[0]); // Asumiendo que el texto está en la primera columna del CSV
+    setTexts(csvTexts);
+  };
 
-    return (
-        <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-            <h1 style={{ textAlign: 'center', paddingBottom: "15px" }}>Predecir reseñas</h1>
-            {APIunavailable ?
-            <Spinner animation="border" role="status"/> : 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-                <button 
-                    onClick={() => setTiempoReal(!tiempoReal)}
-                    style={{
-                    display: 'inline-block',
-                    height: '34px',
-                    width: '60px',
-                    borderRadius: '34px',
-                    backgroundColor: tiempoReal ? 'rgba(75,192,192,1)' : 'Gainsboro',
-                    position: 'relative',
-                    transition: 'background-color 0.2s',
-                    marginBottom: '20px',
-                    border: 'none',
-                    boxShadow: 'none'
-                    }}
-                >
-                    <div 
-                    style={{
-                        height: '30px',
-                        width: '30px',
-                        borderRadius: '50%',
-                        backgroundColor: 'white',
-                        position: 'absolute',
-                        top: '2px',
-                        left: tiempoReal ? '28px' : '2px',
-                        transition: 'left 0.2s'
-                    }}
-                    />
-                </button>
-                <p style={{ marginLeft: '10px' }}>Prediccion en tiempo real</p>
-            </div>}
-            {!APIunavailable &&
-            inputs.map((input, index) => (
-                <div key={index} style={{ marginBottom: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <textarea rows="4" cols="50" value={input.text} onChange={(event) => handleInputChange(index, event)} style={{ marginBottom: '10px', marginRight: '20px', minHeight: '4em'}} />
-                    {inputs.length !== 1 ? (
-                        <Button variant="outline-primary" onClick={() => handleRemoveInput(index)} style={{ marginRight: '20px' }}>
-                            <i className="fas fa-times"></i>
-                        </Button>
-                    ) : (
-                        <Button variant="outline-primary" style={{ marginRight: '20px', visibility: 'hidden' }}>-</Button>
-                    )}
-                    <div style={{ width: '400px', height: '150px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <div style={{ width: '100px', textAlign: 'center', marginRight: '20px' }}>
-                            {input.result && <p style={{ marginBottom: '10px' }}>{input.result}</p>}
-                            {input.result && generateStars(input.result)}
-                        </div>
-                        {input.prob ? (
-                            <Bar
-                                data={{
-                                    labels: ['1', '2', '3', '4', '5'],
-                                    datasets: [
-                                        {
-                                            data: input.prob,
-                                            backgroundColor: 'rgba(75,192,192,0.4)',
-                                            borderColor: 'rgba(75,192,192,1)',
-                                            borderWidth: 1,
-                                        },
-                                    ],
-                                }}
-                                options={{
-                                    indexAxis: 'y',
-                                    scales: {
-                                        x: {
-                                            beginAtZero: true,
-                                            max: 1,
-                                        },
-                                    },
-                                }}
-                            />
-                        ) : <div style={{ width: '300px', height: '150px' }}></div>}
-                    </div>
-                </div>
+  // Enviar los textos al backend para la predicción
+  const handlePredict = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:8000/predict/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Textos_espanol: texts,
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error al realizar la predicción');
+      }
+
+      const data = await response.json();
+      setPredictions(data.predictions);
+      setProbabilities(data.probabilities);
+    } catch (error) {
+      console.error('Error al realizar la predicción:', error);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Container>
+      <Row className="justify-content-center">
+        <Col sm="8" className="text-center">
+          <h2>Predicción de Clasificación ODS</h2>
+        </Col>
+      </Row>
+
+      {/* Input manual de textos */}
+      <Row className="justify-content-center">
+        {texts.map((text, index) => (
+          <Col sm="8" key={index} className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder={`Texto ${index + 1}`}
+              value={text}
+              onChange={(e) => handleTextChange(index, e)}
+            />
+          </Col>
+        ))}
+      </Row>
+      <Row className="justify-content-center">
+        <Col sm="8">
+          <Button onClick={addTextInput} disabled={texts.length >= 5}>
+            Agregar texto
+          </Button>
+        </Col>
+      </Row>
+
+      {/* Carga de archivo CSV */}
+      <Row className="justify-content-center mt-3">
+        <Col sm="8">
+          <CSVReader onFileLoaded={handleCSVUpload} />
+        </Col>
+      </Row>
+
+      {/* Botón de predicción */}
+      <Row className="justify-content-center mt-3">
+        <Col sm="8">
+          <Button onClick={handlePredict} disabled={loading || texts.length === 0}>
+            {loading ? 'Prediciendo...' : 'Realizar Predicción'}
+          </Button>
+        </Col>
+      </Row>
+
+      {/* Resultados de la predicción */}
+      {predictions.length > 0 && (
+        <Row className="justify-content-center mt-4">
+          <Col sm="8">
+            <h3>Resultados:</h3>
+            {predictions.map((pred, index) => (
+              <div key={index}>
+                <h5>Texto {index + 1}: ODS Predicho - {pred}</h5>
+                <Bar
+                  data={{
+                    labels: ['ODS 3', 'ODS 4', 'ODS 5'], // Etiquetas según los ODS predichos
+                    datasets: [
+                      {
+                        label: 'Probabilidad',
+                        data: probabilities[index], // Probabilidades del texto actual
+                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
+                        borderWidth: 1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        max: 1,
+                      },
+                    },
+                  }}
+                />
+              </div>
             ))}
-            {!APIunavailable &&
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                <Button variant="primary" onClick={handleAddInput} style={{ marginRight: '10px', borderRadius: '50%', padding: '10px 15px' }}>
-                    <i className="fas fa-plus"></i>
-                </Button>
-                <Button variant="info" onClick={() => handlePredict()} style={{ marginRight: '10px' }}>
-                    Predecir
-                </Button>
-                <Button variant="secondary" onClick={() => handleClear()}>
-                    Limpiar
-                </Button>
-            </div>}
-        </div>
-    );
+          </Col>
+        </Row>
+      )}
+    </Container>
+  );
 };
 
 export default Predecir;
