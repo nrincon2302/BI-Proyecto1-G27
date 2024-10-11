@@ -24,13 +24,19 @@ const Reentrenar = () => {
       return;
     }
 
-    const textos = csvData.map(row => row.Texto_espanol);
-    const etiquetas = csvData.map(row => parseInt(row.sdg));
+    // Filtrar filas vacías o inválidas
+    const filteredData = csvData.filter(row => row.texto_espanol && row.sdg);
+
+    // Construir el JSON solo con datos válidos
+    const textos = filteredData.map(row => row.texto_espanol);
+    const etiquetas = filteredData.map(row => parseInt(row.sdg));
 
     const jsonData = {
       textos: textos,
       etiquetas: etiquetas
     };
+
+    console.log('Datos a enviar:', jsonData);
 
     setLoading(true);
 
