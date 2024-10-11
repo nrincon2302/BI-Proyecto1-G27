@@ -1,0 +1,34 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.inicio {
+  margin-top: 40px;
+}
+
+.banner {
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px;
+  font-weight: bolder;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+  align-content: center;
+}
+
+.custom-hr {
+  border: 0;
+  height: 7px;
+  background: none;
+  border-top: 2px solid gray;  /* Línea doble con un color gris claro */
+  border-bottom: 3px double #b5b4b4; /* Segunda línea doble */
+  margin: 20px 0;
+}
