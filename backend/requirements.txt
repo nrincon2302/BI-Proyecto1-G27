@@ -6,3 +6,4 @@ scikit-learn
 pydantic
 nltk==3.8.1
 num2words
+openpyxl
