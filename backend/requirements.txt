@@ -3,7 +3,7 @@ uvicorn
 pandas
 joblib
 scikit-learn
-pydantic
-nltk==3.8.1
 num2words
+nltk
+pydantic
 openpyxl

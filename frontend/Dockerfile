@@ -10,9 +10,6 @@ COPY ./frontend /app
 # Instalar las dependencias de Node.js
 RUN npm install
 
-# Construir la aplicación
-RUN npm run build
-
 # Exponer el puerto que será utilizado por React (default 3000)
 EXPOSE 3000
 

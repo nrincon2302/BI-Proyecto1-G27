@@ -9,6 +9,16 @@ import CSVReader from 'react-csv-reader';
 import Card from 'react-bootstrap/Card';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip as ChartTooltip
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip);
 
 import {
   Chart as ChartJS,
