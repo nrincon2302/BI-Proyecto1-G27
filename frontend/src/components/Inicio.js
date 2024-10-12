@@ -5,6 +5,7 @@ import Image from 'react-bootstrap/Image';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 
 import banner from '../images/rueda-nombres.png';
 
@@ -51,6 +52,39 @@ const Inicio = () => {
           >
             ¡Bienvenido!
           </Button>
+        </Col>
+      </Row>
+
+      {/* Card con el nuevo texto */}
+      <Row className="justify-content-center mt-4">
+        <Col sm="8">
+          <Card>
+            <Card.Body>
+              <Card.Title style={{ textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold' }}>
+                Proyecto de Clasificación de Textos para los ODS
+              </Card.Title>
+              <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
+                En este proyecto, el <strong>OBJETIVO</strong> es hacer la clasificación de textos que tratan sobre temas relacionados con los Objetivos de Desarrollo Sostenible (ODS) 3 (Salud y Bienestar), ODS 4 (Educación de Calidad), y ODS 5 (Igualdad de Género), para ayudar a identificar áreas clave y mejorar la toma de decisiones en estas áreas.
+              </Card.Text>
+              <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
+                Se utilizaron técnicas avanzadas de procesamiento de lenguaje natural (NLP), análisis de texto y aprendizaje automático para procesar y clasificar los textos. El algoritmo principal utilizado para la clasificación es el Support Vector Classifier (SVC), en combinación con la técnica de vectorización de texto TF-IDF (Term Frequency-Inverse Document Frequency). Además, se evaluó el rendimiento del modelo mediante métricas como precisión, recall y F1-score, y se analizaron las matrices de confusión en los datos de validación y prueba para mejorar la exactitud del modelo.
+              </Card.Text>
+              <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
+                <strong>Historia de usuario:</strong> “Como organización que trabaja en proyectos relacionados con los Objetivos de Desarrollo Sostenible, quiero clasificar textos relevantes para saber qué ODS están siendo abordados, con el fin de priorizar iniciativas y optimizar recursos hacia el cumplimiento de los ODS 3, 4 y 5.”
+              </Card.Text>
+              <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
+                <strong>Actores beneficiados:</strong> La aplicación está dirigida a organizaciones no gubernamentales (ONGs), gobiernos, académicos y ciudadanos interesados en contribuir al análisis y monitoreo de los avances hacia los Objetivos de Desarrollo Sostenible.
+              </Card.Text>
+              <Card.Text style={{ textAlign: 'center', fontSize: '1.3rem', fontWeight: 'bold' }}>
+                ¡Te invitamos a explorar la aplicación y a contribuir con el progreso hacia los ODS!
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
+          {/* Espacio al final de la página */}
+          <div style={{ marginBottom: '80px' }}>
+                        {/* This empty div adds extra space at the bottom */}
+            </div>
         </Col>
       </Row>
 
