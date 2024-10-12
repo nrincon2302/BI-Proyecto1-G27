@@ -1,63 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Table from 'react-bootstrap/Table';
+import { Row, Col } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import Button from 'react-bootstrap/Button';
-import { Bar, Pie } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, BarController, BarElement, ArcElement, Tooltip, Title } from 'chart.js';
-
-Chart.register(CategoryScale, LinearScale, BarController, BarElement, ArcElement, Tooltip, Title);
+import odsImage from '../images/ods-general.jpg';
 
 const Metricas = () => {
-    const [selectedOds, setSelectedOds] = useState(null); // ODS seleccionado
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const urlDatos = "http://127.0.0.1:8000/model";
-        fetch(urlDatos)
-            .then((response) => response.json())
-            .then((data) => {
-                setData(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                setLoading(false);
-            });
-    }, []);
-
-    // Manejar selección de ODS
-    const handleSelectOds = (odsNumber) => {
-        setSelectedOds(odsNumber);
-    };
-
-    const barData = {
-        labels: data && data.words[selectedOds] ? data.words[selectedOds].map(item => item[0]) : [],
-        datasets: [
-            {
-                label: 'Peso',
-                data: data && data.words[selectedOds] ? data.words[selectedOds].map(item => item[1]) : [],
-                backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(75,192,192,0.6)',
-                hoverBorderColor: 'rgba(75,192,192,1)',
-            }
-        ]
-    };
-
-    const barOptions = {
-        indexAxis: 'y',
-        maintainAspectRatio: false, 
-    };
-
-    const createPieData = (value) => ({
-        datasets: [{
-            data: [value * 100, 100 - value * 100],
-            backgroundColor: ['rgba(75,192,192,0.4)', 'rgba(33,37,41,0.6)'],
-            borderColor: ['rgba(75,192,192,1)', 'rgba(33,37,41,1)'],
-            borderWidth: 1,
-        }],
-    });
+    const [loading, setLoading] = useState(false);
 
     if (loading) {
         return (
@@ -69,43 +17,105 @@ const Metricas = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1 style={{ textAlign: 'center' }}>Filtrar reseñas por estrellas</h1>
-            <p style={{ textAlign: 'center' }}>En esta sección, puedes filtrar las reseñas por estrellas para ver las reseñas que tienen esa calificación específica. Si prefieres ver todas las reseñas sin importar la calificación, puedes hacer clic en el botón "Todos".</p>
 
-            <div style={{ display: 'flex', justifyContent: 'space-around', paddingBottom: '20px' }}>
-                {/* Tarjeta para ODS 3 */}
-                <div style={{ border: '1px solid #ccc', borderRadius: '10px', padding: '20px', width: '30%', textAlign: 'center' }}>
-                    <img src="https://via.placeholder.com/150" alt="ODS 3" style={{ borderRadius: '10px', marginBottom: '10px' }} />
-                    <h3>Salud y Bienestar</h3>
-                    <p>Las reseñas de ODS 3 están relacionadas con mejorar la salud y el bienestar de los ciudadanos.</p>
-                    <Button variant="primary" onClick={() => handleSelectOds('3')}>3 estrellas</Button>
-                </div>
+            {/* Imagen de ODS antes del título */}
+            <Row className="justify-content-center">
+                <Col xs={10} md={8} className="text-center mt-3">
+                    <img src={odsImage} alt="Objetivos de Desarrollo Sostenible" style={{ maxWidth: '100%', height: 'auto' }} />
+                </Col>
+            </Row>
 
-                {/* Tarjeta para ODS 4 */}
-                <div style={{ border: '1px solid #ccc', borderRadius: '10px', padding: '20px', width: '30%', textAlign: 'center' }}>
-                    <img src="https://via.placeholder.com/150" alt="ODS 4" style={{ borderRadius: '10px', marginBottom: '10px' }} />
-                    <h3>Educación de Calidad</h3>
-                    <p>Las reseñas de ODS 4 están relacionadas con asegurar una educación de calidad para todos.</p>
-                    <Button variant="primary" onClick={() => handleSelectOds('4')}>4 estrellas</Button>
-                </div>
+            {/* Título principal */}
+            <h1 style={{ textAlign: 'center' }}>¿De qué se trata este proyecto?</h1>
+            
+            {/* Cuadro explicativo */}
+            <Row className="justify-content-center">
+                <Col xs={15} md={8} className="mt-3">
+                    <div className="info-box" style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '10px', backgroundColor: '#f9f9f9', textAlign: 'justify' }}>
+                        <p>
+                            Este proyecto tiene como objetivo analizar y clasificar automáticamente las opiniones de los ciudadanos en función de tres 
+                            Objetivos de Desarrollo Sostenible (ODS): <strong>Salud y Bienestar (ODS 3)</strong>, <strong>Educación de Calidad (ODS 4)</strong>, y 
+                            <strong>Igualdad de Género (ODS 5)</strong>. Utilizando modelos de analítica de textos, la herramienta procesa las opiniones en 
+                            lenguaje natural y las asigna a uno de los tres ODS, lo que facilita la identificación de problemáticas y posibles soluciones.
+                        </p>
+                        <p>
+                            En este proyecto, el equipo de desarrollo juega un papel clave: los científicos de datos son responsables de construir los modelos 
+                            analíticos que clasifican las opiniones, mientras que los ingenieros de datos aseguran la correcta implementación y actualización de 
+                            dichos modelos para garantizar su precisión y eficiencia. Además, los ingenieros de software desarrollan la aplicación web o móvil 
+                            que permite a los usuarios interactuar con los resultados del modelo.
+                        </p>
+                        <p>
+                            El resultado de este proceso es una aplicación web que permite a los usuarios finales enviar opiniones, ver cómo se clasifican en los 
+                            ODS mencionados y tomar decisiones informadas basadas en los resultados. Los usuarios beneficiados son los siguientes:
+                        </p>
 
-                {/* Tarjeta para ODS 5 */}
-                <div style={{ border: '1px solid #ccc', borderRadius: '10px', padding: '20px', width: '30%', textAlign: 'center' }}>
-                    <img src="https://via.placeholder.com/150" alt="ODS 5" style={{ borderRadius: '10px', marginBottom: '10px' }} />
-                    <h3>Igualdad de Género</h3>
-                    <p>Las reseñas de ODS 5 están relacionadas con alcanzar la igualdad de género y empoderar a las mujeres.</p>
-                    <Button variant="primary" onClick={() => handleSelectOds('5')}>5 estrellas</Button>
-                </div>
-            </div>
+                        {/* Tabla de actores */}
+                        <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Rol</th>
+                                <th>Beneficio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Ciudadanos</td>
+                                <td>Sus opiniones serán analizadas automáticamente para identificar problemáticas relevantes relacionadas con los ODS 3, 4 y 5.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Fondo de Poblaciones de las Naciones Unidas (UNFPA)</td>
+                                <td>Obtiene un mecanismo eficiente para analizar grandes volúmenes de datos de opiniones ciudadanas, lo que agiliza la toma de decisiones para los ODS.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Entidades Públicas Colaboradoras</td>
+                                <td>Aseguran que el modelo cumpla con los estándares de calidad y privacidad de datos, lo que mejora la confianza en el análisis de opiniones.</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>Financiadores (UNFPA)</td>
+                                <td>Proporciona los recursos financieros necesarios para el desarrollo y ejecución del proyecto, asegurando la continuidad del mismo.</td>
+                            </tr>
+                        </tbody>
+                    </Table>
 
-            {selectedOds && (
-                <div style={{ marginTop: '20px' }}>
-                    <h2 style={{ textAlign: 'center' }}>Resultados para ODS {selectedOds}</h2>
-                    <div style={{ width: '100%', height: '400px' }}>
-                        <Bar data={barData} options={barOptions} />
+
+                    {/* Nuevo texto  después de la tabla */}
+                    <div style={{ textAlign: 'justify' }}>
+                        <p>
+                            Con los siguientes actores, se determinó que la aplicación está dirigida especialmente a los ciudadanos y entidades públicas
+                            involucradas en la evaluación de los Objetivos de Desarrollo Sostenible (ODS) 3, 4, y 5. La aplicación apoyaría el proceso de
+                            análisis de las opiniones para mejorar la toma de decisiones y crear estrategias más eficaces para abordar temas relacionados
+                            con la salud, educación, y la igualdad de género. Esta herramienta permite identificar áreas de mejora y reconocer prácticas
+                            efectivas que deben mantenerse.
+                        </p>
+                        <p>
+                            Tanto para las entidades públicas como para otras organizaciones, la aplicación puede ser útil, ya que ofrece un análisis claro y
+                            automatizado de las opiniones, ayudando a saber qué tipo de problemas y oportunidades se asocian con cada ODS. Esto permite
+                            agrupar las opiniones y definir prioridades de intervención, contribuyendo al desarrollo de políticas y estrategias que agreguen valor.
+                        </p>
                     </div>
-                </div>
-            )}
+                    
+                    
+                    </div>
+
+                            {/* Espacio al final de la página */}
+                    <div style={{ marginBottom: '40px' }}>
+                                {/* This empty div adds extra space at the bottom */}
+                    </div>
+
+                </Col>
+            </Row>
+
+            {/* Espacio al final de la página */}
+            <div style={{ marginBottom: '80px' }}>
+                        {/* This empty div adds extra space at the bottom */}
+            </div>
+            
+            
         </div>
     );
 };
