@@ -26,13 +26,13 @@ const Reentrenar = () => {
       return;
     }
 
-    const filteredData = csvData.filter(row => row.texto_espanol && row.sdg);
-    const textos = filteredData.map(row => row.texto_espanol);
+    const filteredData = csvData.filter(row => row.Textos_espanol && row.sdg);
+    const textos = filteredData.map(row => row.Textos_espanol);
     const etiquetas = filteredData.map(row => parseInt(row.sdg));
 
     const jsonData = {
-      textos: textos,
-      etiquetas: etiquetas
+      Textos_espanol: textos,
+      sdg: etiquetas
     };
 
     console.log('Datos a enviar:', jsonData);
@@ -48,6 +48,7 @@ const Reentrenar = () => {
     })
     .then(response => response.json())
     .then(data => {
+      console.log('Respuesta del servidor', data);
       setLoading(false);
       setMessage(data.message);
       setMetrics(data.metrics);

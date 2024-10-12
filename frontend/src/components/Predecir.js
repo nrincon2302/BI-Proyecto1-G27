@@ -71,7 +71,7 @@ const Predecir = () => {
 
   // Manejar carga de archivo CSV
   const handleCSVUpload = (data) => {
-    const csvTexts = data.map(row => row[0]).filter(text => text.trim() !== ''); 
+    const csvTexts = data.map(row => row[0]).filter(text => text.trim() !== '' && text.trim() !== 'Textos_espanol'); 
     setTexts(csvTexts);
   };
 
@@ -98,6 +98,7 @@ const Predecir = () => {
       return;
     }
   
+    console.log('Enviando textos:', {Textos_espanol: texts});
     setLoading(true);
     try {
       const response = await fetch('http://localhost:8000/predict/', {
@@ -115,6 +116,7 @@ const Predecir = () => {
       }
   
       const data = await response.json();
+      console.log('Respuesta del Servidor:', data);
       setPredictions(data.predictions);
       setProbabilities(data.probabilities);
       setDisplayTexts([...texts]);
