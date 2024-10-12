@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import banner from '../images/ods_sin_nombre.jpg';
+import banner from '../images/rueda-nombres.png';
 
 const Inicio = () => {
   const [show, setShow] = useState(false);
