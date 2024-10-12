@@ -1,32 +1,14 @@
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .DataModel import DataModel
+from .DataModel import DataModel, ReentrenamientoModel
+
 import pandas as pd
-from joblib import load
-import numpy as np  
+from joblib import load, dump
+import numpy as np
+
 from sklearn.metrics import precision_score, recall_score, f1_score
-from joblib import dump
-from fastapi import HTTPException
-from pydantic import BaseModel
-from typing import List
-from .Preprocessing import pipeline_datos_reentrenamiento
-from sklearn.metrics import confusion_matrix
-from collections import Counter
-import warnings
-from sklearn.exceptions import UndefinedMetricWarning
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import FunctionTransformer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-import json
-import pandas as pd
-import unicodedata
-from num2words import num2words
-from nltk.corpus import stopwords
-from nltk import word_tokenize
-from nltk.stem import SnowballStemmer, WordNetLemmatizer
 
 app = FastAPI()
 
@@ -89,16 +71,6 @@ def get_important_words(dataModel: DataModel):
 
    return {"important_words": review_important}
 
-
-
-# Define el modelo de entrada para la API
-class ReentrenamientoModel(BaseModel):
-    textos: List[str]
-    etiquetas: List[int]
-
-
-
-
 @app.post("/reentrenamiento")
 def reentrenar_modelo(data: ReentrenamientoModel):
     textos_nuevos = data.textos
@@ -119,35 +91,16 @@ def reentrenar_modelo(data: ReentrenamientoModel):
     # Crear el DataFrame con los textos y etiquetas combinados
     df = pd.DataFrame({'Textos_espanol': textos_combinados, 'sdg': etiquetas_combinadas})
 
-    # Verificar la distribución de clases antes de la división
-    print("Distribución de etiquetas combinadas:", Counter(df['sdg']))
-
     # Dividir los datos en entrenamiento y prueba (80% entrenamiento, 20% prueba)
     X_train, X_test, y_train, y_test = train_test_split(
         df['Textos_espanol'], df['sdg'], test_size=0.2, random_state=42, stratify=df['sdg']
     )
 
-    # Verificar la distribución de clases después de la división
-    print("Distribución de etiquetas en el conjunto de entrenamiento:", Counter(y_train))
-    print("Distribución de etiquetas en el conjunto de prueba:", Counter(y_test))
-
-    # Preprocesar los textos de entrenamiento y prueba
-    X_train_processed = pipeline_datos_reentrenamiento(X_train)
-    X_test_processed = pipeline_datos_reentrenamiento(X_test)
-
-    # Vectorización con TfidfVectorizer
-    tfidf = TfidfVectorizer(max_features=10000)
-
-    # Ajustar el vectorizador con los datos de entrenamiento y transformar los datos de prueba
-    X_train_tfidf = tfidf.fit_transform(X_train_processed)
-    X_test_tfidf = tfidf.transform(X_test_processed)
-
-    # Crear y entrenar el clasificador con multi_class='multinomial'
-    clf = LogisticRegression(C=100, max_iter=100, solver='newton-cg', multi_class='multinomial')
-    clf.fit(X_train_tfidf, y_train)
+    pipeline1 = pipeline
+    pipeline1.fit(X_train, y_train)
 
     # Realizar predicciones en el conjunto de prueba
-    y_pred = clf.predict(X_test_tfidf)
+    y_pred = pipeline1.predict(X_test)
 
     # Calcular las métricas de desempeño
     precision = precision_score(y_test, y_pred, average='weighted', zero_division=0)
@@ -159,15 +112,8 @@ def reentrenar_modelo(data: ReentrenamientoModel):
     recall = "{0:.5f}".format(recall)
     f1 = "{0:.5f}".format(f1)
 
-    # Crear un pipeline con el preprocesamiento, vectorizador y clasificador entrenado
-    pipeline = Pipeline([
-        ('preprocesamiento', FunctionTransformer(pipeline_datos_reentrenamiento)),
-        ('tfidf', tfidf),
-        ('clf', clf)
-    ])
-
     # Guardar el modelo actualizado
-    dump(pipeline, model_path)
+    dump(pipeline1, model_path)
 
     return {
         "message": "Modelo reentrenado correctamente",

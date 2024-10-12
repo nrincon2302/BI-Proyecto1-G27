@@ -10,3 +10,10 @@ class DataModel(BaseModel):
     def columns(self):
         return ["Textos_espanol"]
 
+
+class ReentrenamientoModel(BaseModel):
+    textos: List[str]
+    etiquetas: List[int]
+
+    def columns(self):
+        return ["textos", "etiquetas"]
