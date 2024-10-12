@@ -367,6 +367,7 @@ const Predecir = () => {
                         {/* Texto genérico basado en la predicción */}
                         <Row className="mt-3">
                           <Col>
+                          <h5>Comentario al Usuario:</h5>
                             <p style={{ textAlign: 'justify' }}>
                               {genericReasons[predictions[currentIndex]]}
                             </p>
