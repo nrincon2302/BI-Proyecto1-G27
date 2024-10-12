@@ -18,7 +18,7 @@ const Header = () => {
            ODS App 
         </Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="/model">Métricas</Nav.Link>
+          <Nav.Link href="/model">Contexto</Nav.Link>
           <Nav.Link href="/predict">Predecir</Nav.Link>
           <Nav.Link href="/retrain">Reentrenar</Nav.Link>
         </Nav>
