@@ -12,8 +12,8 @@ class DataModel(BaseModel):
 
 
 class ReentrenamientoModel(BaseModel):
-    textos: List[str]
-    etiquetas: List[int]
+    Textos_espanol: List[str]
+    sdg: List[int]
 
     def columns(self):
-        return ["textos", "etiquetas"]
+        return ["Textos_espanol", "sdg"]

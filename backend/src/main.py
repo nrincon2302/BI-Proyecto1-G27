@@ -44,37 +44,10 @@ def make_prediction(dataModel: DataModel):
     # Devolver todas las predicciones y probabilidades
     return {"predictions": predictions, "probabilities": probabilities}
 
-@app.post("/words")
-def get_important_words(dataModel: DataModel):
-   # Convertir la entrada a un DataFrame que maneje múltiples textos
-   df = pd.DataFrame(dataModel.dict(), columns=dataModel.dict().keys())
-
-   # Cargar el modelo (ajusta según tu estructura si es diferente)
-   model = load("backend/src/assets/pipeline_funcional.joblib")
-
-   features = model['tfidf'].get_feature_names_out()
-   important_features = model['clf'].coef_[0]
-
-   if hasattr(important_features, 'toarray'):
-      important_features = important_features.toarray().ravel()
-
-   word_indices = np.argsort(important_features)[-300:]
-
-   review_important = []
-   for user_review in df['Textos_espanol']:
-      user_review_important = []
-      for word in user_review.split():
-         for idx in word_indices:
-            if word == features[idx]:
-               user_review_important.append(features[idx])
-      review_important.append(user_review_important)
-
-   return {"important_words": review_important}
-
 @app.post("/reentrenamiento")
 def reentrenar_modelo(data: ReentrenamientoModel):
-    textos_nuevos = data.textos
-    etiquetas_nuevas = data.etiquetas
+    textos_nuevos = data.Textos_espanol
+    etiquetas_nuevas = data.sdg
 
     if len(textos_nuevos) != len(etiquetas_nuevas):
         raise HTTPException(status_code=400, detail="El número de textos y etiquetas no coincide")
