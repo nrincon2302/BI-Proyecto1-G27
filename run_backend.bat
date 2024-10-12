@@ -34,7 +34,7 @@ if exist backend\venv (
     echo (esto puede tardar un momento)
     echo ================================
     REM Oculta la salida de la instalación de dependencias
-    pip install fastapi uvicorn >nul 2>&1
+    pip install -r requirements.txt >nul 2>&1
 
     echo ================================
     echo Dependencias instaladas.

@@ -24,10 +24,7 @@ const Reentrenar = () => {
       return;
     }
 
-    // Filtrar filas vacías o inválidas
     const filteredData = csvData.filter(row => row.texto_espanol && row.sdg);
-
-    // Construir el JSON solo con datos válidos
     const textos = filteredData.map(row => row.texto_espanol);
     const etiquetas = filteredData.map(row => parseInt(row.sdg));
 
@@ -60,16 +57,44 @@ const Reentrenar = () => {
   };
 
   return (
-    <Container fluid className="d-flex justify-content-center">
-      <Row className="mt-5">
-        <Col xs={12} className="text-center">
-          <h2>Reentrenar el Modelo</h2>
+    <Container fluid className="inicio" style={{marginBottom:100}}>
+      <Row className="justify-content-center text-center mt-5">
+        <Col xs={12}>
+          <h1 className="banner" style={{ fontWeight: 'bold', fontSize: '2.5rem' }}>
+            ¡Reentrenar el Modelo!
+          </h1>
         </Col>
 
-        <Col xs={12} className="text-center">
+        {/* Cuadro explicativo */}
+        <Col xs={10} md={8} className="text-center mt-3">
+          <div 
+            style={{
+              border: '2px solid #6c757d', 
+              borderRadius: '15px', 
+              padding: '20px', 
+              backgroundColor: '#f8f9fa',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+              fontSize: '1.1rem',
+              lineHeight: '1.6',
+            }}
+          >
+            <h4 style={{ fontWeight: 'bold' }}>¿Qué es el Reentrenamiento?</h4>
+            <p>
+              Al realizar este proceso, se van a añadir nuevos datos proporcionados en un archivo CSV
+              para generar un nuevo modelo de clasificación que sustituirá el modelo actual. Los nuevos
+              datos que se proporcionen se agregarán a los que ya se tenían para volver a entrenar el modelo.
+              <strong> Se conservan iguales los hiperparámetros del modelo anterior</strong>.
+            </p>
+          </div>
+        </Col>
+      </Row>
+
+      {/* Formulario para cargar CSV y botón de reentrenar */}
+      <Row className="justify-content-center">
+        <Col xs={12} className="text-center mt-5">
           <Form>
             <Form.Group controlId="formFile" className="mb-3">
-              <Form.Label>Cargar CSV con los datos de entrenamiento</Form.Label>
+              <Form.Label style={{ fontSize: '1.25rem' }}>Cargar CSV con los nuevos datos para reentrenar el modelo</Form.Label>
               <CSVReader
                 onFileLoaded={handleFileLoad}
                 parserOptions={{ header: true }}
@@ -77,7 +102,15 @@ const Reentrenar = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button
+              variant="success"
+              onClick={handleSubmit}
+              style={{
+                padding: '10px 25px',
+                fontSize: '1.25rem',
+                borderRadius: '10px',
+              }}
+            >
               Reentrenar Modelo
             </Button>
           </Form>

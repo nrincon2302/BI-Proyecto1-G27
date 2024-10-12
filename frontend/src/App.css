@@ -5,8 +5,8 @@ footer {
   width: 100%;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
-  background-color: #f8f9fa;
-  color: black;
+  background-color: #343a40;
+  color: #f8f9fa;
   text-align: center;
   padding: 10px;
   z-index: 1000;
@@ -24,6 +24,16 @@ footer {
   align-content: center;
 }
 
+.resultados {
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  font-weight: bolder;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+  align-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
 .custom-hr {
   border: 0;
   height: 7px;
@@ -31,4 +41,95 @@ footer {
   border-top: 2px solid gray;  /* Línea doble con un color gris claro */
   border-bottom: 3px double #b5b4b4; /* Segunda línea doble */
   margin: 20px 0;
+}
+
+.predecir-container {
+  margin-bottom: 150px;
+}
+
+.banner-title {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.info-box {
+  border: 2px solid #6c757d;
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.action-btn {
+  padding: 10px 25px;
+  font-size: 1.25rem;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.text-index {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.text-input {
+  font-size: 1.1rem;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.delete-btn {
+  margin-left: 10px;
+  border-radius: 50%;
+  padding: 0 8px;
+  height: 38px;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-container {
+  position: relative;
+}
+
+.chart-bar {
+  border: 2px solid #343a40;
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 300px;
+}
+
+.carousel-arrow-left {
+  position: absolute;
+  top: 50%;
+  left: -50px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: #343a40;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-arrow-right {
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: #343a40;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

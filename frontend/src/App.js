@@ -19,6 +19,7 @@ function App() {
           <Route path='/retrain' element={<Reentrenar />} />
         </Routes>
       </BrowserRouter>
+      
       <footer>
         <p>Realizado por: Nicolás Casas, Nicolás Rincón y Santiago Jaimes</p>
       </footer>

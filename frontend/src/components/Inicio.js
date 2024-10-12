@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import banner from '..//images/ods_sin_nombre.jpg';
+import banner from '../images/ods_sin_nombre.jpg';
 
 const Inicio = () => {
   const [show, setShow] = useState(false);
@@ -16,7 +16,7 @@ const Inicio = () => {
   const handleShow = () => setShow(true);
 
   return (
-    <Container className="inicio">
+    <Container className="inicio" style={{ marginBottom: 50 }}>
       <Row className="justify-content-center">
         <Col sm="8" className="text-center">
           <h1 className="banner">¡Bienvenido al Clasificador de ODS!</h1>
@@ -29,7 +29,6 @@ const Inicio = () => {
           
           {/* Botón superpuesto y redondo en el centro de la imagen */}
           <Button
-            variant="primary"
             onClick={handleShow}
             style={{
               position: 'absolute',
@@ -43,14 +42,17 @@ const Inicio = () => {
               display: 'flex',     // Centrar el texto dentro del botón
               justifyContent: 'center',
               alignItems: 'center',
+              backgroundColor: '#343a40',  // Fondo oscuro (oscuro bootstrap)
+              color: '#f8f9fa',  // Letras claras (blanco bootstrap)
+              border: 'none',
+              animation: 'pulse 1.5s infinite', // Añadida la animación
+              boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)' // Sombra para destacar el botón
             }}
           >
             ¡Bienvenido!
           </Button>
         </Col>
-
       </Row>
-      <hr className="custom-hr" />
 
       {/* Modal de bienvenida */}
       <Modal show={show} onHide={handleClose}>
@@ -59,8 +61,9 @@ const Inicio = () => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            Aquí puedes clasificar documentos de acuerdo a los Objetivos de Desarrollo Sostenible (ODS).
-            Usa las pestañas de la parte superior para navegar entre las opciones de Predicción y Métricas.
+            Aquí puedes clasificar documentos de acuerdo a los Objetivos de Desarrollo Sostenible (ODS) 3, 4 y 5.
+            Usa las pestañas de la parte superior para navegar entre las opciones de Predicción y Reentrenamiento.
+            También puedes conocer datos más técnicos del modelo actual y otras recomendaciones en la pestaña de Métricas.
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -69,6 +72,26 @@ const Inicio = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Estilos CSS para la animación */}
+      <style type="text/css">
+        {`
+          @keyframes pulse {
+            0% {
+              transform: translate(-50%, -50%) scale(1);
+              box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+              transform: translate(-50%, -50%) scale(1.1);
+              box-shadow: 0 0 25px rgba(52, 58, 64, 0.5); // Sombra al hacer pulse
+            }
+            100% {
+              transform: translate(-50%, -50%) scale(1);
+              box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+          }
+        `}
+      </style>
     </Container>
   );
 };
