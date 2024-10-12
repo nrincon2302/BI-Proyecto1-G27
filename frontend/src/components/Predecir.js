@@ -20,16 +20,6 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip);
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip as ChartTooltip,
-} from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, ChartTooltip);
 
 const Predecir = () => {
   const [texts, setTexts] = useState([]); 
