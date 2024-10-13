@@ -64,7 +64,7 @@ const Inicio = () => {
                 Proyecto de Clasificación de Textos para los ODS
               </Card.Title>
               <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
-                En este proyecto, el <strong>OBJETIVO</strong> es hacer la clasificación de textos que tratan sobre temas relacionados con los Objetivos de Desarrollo Sostenible (ODS) 3 (Salud y Bienestar), ODS 4 (Educación de Calidad), y ODS 5 (Igualdad de Género), para ayudar a identificar áreas clave y mejorar la toma de decisiones en estas áreas.
+                En este proyecto, el objetivo es hacer la clasificación de textos que tratan sobre temas relacionados con los Objetivos de Desarrollo Sostenible (ODS) 3 (Salud y Bienestar), ODS 4 (Educación de Calidad), y ODS 5 (Igualdad de Género), para ayudar a identificar áreas clave y mejorar la toma de decisiones en estas áreas.
               </Card.Text>
               <Card.Text style={{ textAlign: 'justify', fontSize: '1.2rem' }}>
                 Se utilizaron técnicas avanzadas de procesamiento de lenguaje natural (NLP), análisis de texto y aprendizaje automático para procesar y clasificar los textos. El algoritmo principal utilizado para la clasificación es la regresión logística multinomial, en combinación con la técnica de vectorización de texto TF-IDF (Term Frequency-Inverse Document Frequency). Además, se evaluó el rendimiento del modelo mediante métricas como precisión, recall y F1-score, y se analizaron las matrices de confusión en los datos de validación y prueba para mejorar la exactitud del modelo.
@@ -97,7 +97,7 @@ const Inicio = () => {
           <p>
             Aquí puedes clasificar documentos de acuerdo a los Objetivos de Desarrollo Sostenible (ODS) 3, 4 y 5.
             Usa las pestañas de la parte superior para navegar entre las opciones de Predicción y Reentrenamiento.
-            También puedes conocer datos más técnicos del modelo actual y otras recomendaciones en la pestaña de Métricas.
+            También puedes conocer más información del proyecto y otras recomendaciones en la pestaña de Contexto.
           </p>
         </Modal.Body>
         <Modal.Footer>
